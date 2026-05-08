@@ -110,6 +110,68 @@ def calculate_entropy_mixing(elements, fractions=None):
     return entropy
 
 
+def calculate_vec(elements, fractions=None):
+    """
+    Calculate Valence Electron Concentration (VEC).
+    VEC = Σ(ci * VECi)  where VECi is the valence electron count of element i.
+    High VEC (>8) tends toward FCC/Fluorite; low VEC (<6.87) tends toward BCC/Rock-salt.
+    """
+    if fractions is None:
+        fractions = [1.0/len(elements)] * len(elements)
+    return sum(
+        ELEMENTAL_PROPERTIES[elem]['valence_electron_count'] * frac
+        for elem, frac in zip(elements, fractions)
+    )
+
+
+def calculate_delta_hmix(elements, fractions=None):
+    """
+    Estimate enthalpy of mixing (ΔHmix) using a Miedema-inspired pairwise model.
+    ΔHmix ≈ Σ_i≠j [ 4 * ΔHij * ci * cj ]
+    where ΔHij is approximated from the electronegativity difference:
+        ΔHij ≈ -2 * (χi - χj)^2  (kJ/mol, empirical)
+    This is a simplified but widely-used estimate when full Miedema tables
+    are unavailable.
+    """
+    if fractions is None:
+        fractions = [1.0/len(elements)] * len(elements)
+    fractions = list(fractions)
+    n = len(elements)
+    h_mix = 0.0
+    for i in range(n):
+        chi_i = ELEMENTAL_PROPERTIES[elements[i]]['pauling_electronegativity']
+        for j in range(i + 1, n):
+            chi_j = ELEMENTAL_PROPERTIES[elements[j]]['pauling_electronegativity']
+            delta_h_ij = -2.0 * (chi_i - chi_j) ** 2   # kJ/mol, simplified
+            h_mix += 4.0 * delta_h_ij * fractions[i] * fractions[j]
+    return h_mix
+
+
+def calculate_omega(elements, fractions=None):
+    """
+    Calculate the Omega stability criterion (Liu & Zhang, 2012).
+    Omega = T_m * ΔSmix / |ΔHmix|
+    Omega >= 1  →  entropy dominates  →  solid-solution (single-phase) favoured.
+    Returns 10.0 (capped) when |ΔHmix| ≈ 0 (fully ideal mixing).
+    """
+    if fractions is None:
+        fractions = [1.0/len(elements)] * len(elements)
+    fractions = list(fractions)
+
+    # Weighted average melting point
+    t_m = sum(
+        ELEMENTAL_PROPERTIES[elem]['melting_point'] * frac
+        for elem, frac in zip(elements, fractions)
+    )
+    ds_mix = calculate_entropy_mixing(elements, fractions)   # J/(mol·K)
+    dh_mix = calculate_delta_hmix(elements, fractions)        # kJ/mol
+    dh_mix_j = abs(dh_mix) * 1000.0                          # convert to J/mol
+
+    if dh_mix_j < 1e-6:          # near-ideal mixing
+        return 10.0               # cap at 10 (large positive value)
+    return (t_m * ds_mix) / dh_mix_j
+
+
 def encode_elements(elements, fractions=None):
     """
     Encode element composition using label encoding approach from paper.
@@ -158,6 +220,10 @@ def calculate_all_features(elements, fractions=None):
         'delta_size': calculate_delta_size(elements, fractions),
         'entropy_mixing': calculate_entropy_mixing(elements, fractions),
         'n_components': len(elements),
+        # ── New thermodynamic descriptors ──────────────────────────────────
+        'vec': calculate_vec(elements, fractions),
+        'delta_hmix': calculate_delta_hmix(elements, fractions),
+        'omega': calculate_omega(elements, fractions),
     }
 
     # Add element encoding
@@ -178,6 +244,10 @@ def features_to_array(features_dict):
         'delta_size',
         'entropy_mixing',
         'n_components',
+        # New thermodynamic descriptors
+        'vec',
+        'delta_hmix',
+        'omega',
     ]
 
     # Add element encoding features

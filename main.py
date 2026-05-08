@@ -190,17 +190,19 @@ def load_data():
 # ──────────────────────────────────────────────────────────────────────────────
 
 def apply_adasyn(X, y, random_state=42):
+    from imblearn.combine import SMOTETomek
     from imblearn.over_sampling import SMOTE
-    print(f"\n[ADASYN] Before: {dict(zip(*np.unique(y, return_counts=True)))}")
+    print(f"\n[Resampling] Before: {dict(zip(*np.unique(y, return_counts=True)))}")
     try:
-        sampler = ADASYN(random_state=random_state, n_neighbors=3)
+        # SMOTETomek: oversample minorities + remove noisy Tomek-link boundary pairs
+        sampler = SMOTETomek(random_state=random_state)
         X_res, y_res = sampler.fit_resample(X, y)
-        print(f"[ADASYN] After (ADASYN): {dict(zip(*np.unique(y_res, return_counts=True)))}")
-    except RuntimeError:
-        print("[ADASYN] Fallback to SMOTE (dataset geometry constraint)")
+        print(f"[Resampling] After (SMOTETomek): {dict(zip(*np.unique(y_res, return_counts=True)))}")
+    except Exception as e:
+        print(f"[Resampling] SMOTETomek failed ({e}), falling back to SMOTE")
         sampler = SMOTE(random_state=random_state, k_neighbors=5)
         X_res, y_res = sampler.fit_resample(X, y)
-        print(f"[ADASYN] After (SMOTE): {dict(zip(*np.unique(y_res, return_counts=True)))}")
+        print(f"[Resampling] After (SMOTE): {dict(zip(*np.unique(y_res, return_counts=True)))}")
     # Add small Gaussian noise to synthetic samples to prevent perfect overfitting
     rng = np.random.default_rng(random_state)
     X_res = X_res + rng.normal(0, 0.005, X_res.shape)
@@ -240,7 +242,7 @@ def build_models():
 
 def evaluate_models(models, X_train, X_test, y_train, y_test):
     results = {}
-    cv = StratifiedKFold(n_splits=3, shuffle=True, random_state=42)
+    cv = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
 
     for name, model in models.items():
         model.fit(X_train, y_train)
@@ -608,3 +610,15 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+
+
+
+
+
+
+#   1. Dataset size/quality - They used 112 experimental data points (mentioned in section 2.1)
+#   2. Feature engineering - They used ADASYN oversampling and PCA dimensionality reduction
+#   3. Hyperparameter tuning - They used 3-fold cross-validation with grid search (not 10-fold like yours)
+#   4. Different features - They included E&C (element & content) encoding with PCA

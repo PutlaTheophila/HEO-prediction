@@ -22,6 +22,9 @@ ELEMENTAL_PROPERTIES = {
         'mulliken_electronegativity': 1.17,
         'atomic_number': 58,
         'molar_mass': 140.116,
+        'valence_electron_count': 4,    # d/f electrons available for bonding
+        'melting_point': 1068.0,        # K
+        'enthalpy_of_fusion': 5.46,     # kJ/mol
     },
     'Ge': {
         'ionic_radius': 0.53,   # Å (Ge4+, 6-fold)
@@ -30,6 +33,9 @@ ELEMENTAL_PROPERTIES = {
         'mulliken_electronegativity': 2.31,
         'atomic_number': 32,
         'molar_mass': 72.630,
+        'valence_electron_count': 4,
+        'melting_point': 1211.4,        # K
+        'enthalpy_of_fusion': 36.94,    # kJ/mol
     },
     'Hf': {
         'ionic_radius': 0.71,   # Å (Hf4+, 6-fold)
@@ -38,6 +44,9 @@ ELEMENTAL_PROPERTIES = {
         'mulliken_electronegativity': 1.44,
         'atomic_number': 72,
         'molar_mass': 178.49,
+        'valence_electron_count': 4,
+        'melting_point': 2506.0,        # K
+        'enthalpy_of_fusion': 27.20,    # kJ/mol
     },
     'Ir': {
         'ionic_radius': 0.625,  # Å (Ir4+, 6-fold)
@@ -46,6 +55,9 @@ ELEMENTAL_PROPERTIES = {
         'mulliken_electronegativity': 2.25,
         'atomic_number': 77,
         'molar_mass': 192.217,
+        'valence_electron_count': 9,
+        'melting_point': 2719.0,        # K
+        'enthalpy_of_fusion': 41.12,    # kJ/mol
     },
     'Mn': {
         'ionic_radius': 0.53,   # Å (Mn4+, 6-fold)
@@ -54,6 +66,9 @@ ELEMENTAL_PROPERTIES = {
         'mulliken_electronegativity': 1.72,
         'atomic_number': 25,
         'molar_mass': 54.938,
+        'valence_electron_count': 7,
+        'melting_point': 1519.0,        # K
+        'enthalpy_of_fusion': 12.91,    # kJ/mol
     },
     'Nb': {
         'ionic_radius': 0.68,   # Å (Nb4+, 6-fold)
@@ -62,6 +77,9 @@ ELEMENTAL_PROPERTIES = {
         'mulliken_electronegativity': 1.89,
         'atomic_number': 41,
         'molar_mass': 92.906,
+        'valence_electron_count': 5,
+        'melting_point': 2750.0,        # K
+        'enthalpy_of_fusion': 30.00,    # kJ/mol
     },
     'Pb': {
         'ionic_radius': 0.775,  # Å (Pb4+, 6-fold)
@@ -70,6 +88,9 @@ ELEMENTAL_PROPERTIES = {
         'mulliken_electronegativity': 1.87,
         'atomic_number': 82,
         'molar_mass': 207.2,
+        'valence_electron_count': 4,
+        'melting_point': 600.6,         # K
+        'enthalpy_of_fusion': 4.77,     # kJ/mol
     },
     'Pt': {
         'ionic_radius': 0.625,  # Å (Pt4+, 6-fold)
@@ -78,6 +99,9 @@ ELEMENTAL_PROPERTIES = {
         'mulliken_electronegativity': 2.21,
         'atomic_number': 78,
         'molar_mass': 195.084,
+        'valence_electron_count': 10,
+        'melting_point': 2041.4,        # K
+        'enthalpy_of_fusion': 22.17,    # kJ/mol
     },
     'Rh': {
         'ionic_radius': 0.60,   # Å (Rh4+, 6-fold)
@@ -86,6 +110,9 @@ ELEMENTAL_PROPERTIES = {
         'mulliken_electronegativity': 2.15,
         'atomic_number': 45,
         'molar_mass': 102.906,
+        'valence_electron_count': 9,
+        'melting_point': 2237.0,        # K
+        'enthalpy_of_fusion': 26.59,    # kJ/mol
     },
     'Ru': {
         'ionic_radius': 0.62,   # Å (Ru4+, 6-fold)
@@ -94,6 +121,9 @@ ELEMENTAL_PROPERTIES = {
         'mulliken_electronegativity': 2.25,
         'atomic_number': 44,
         'molar_mass': 101.07,
+        'valence_electron_count': 8,
+        'melting_point': 2607.0,        # K
+        'enthalpy_of_fusion': 38.59,    # kJ/mol
     },
     'Sn': {
         'ionic_radius': 0.69,   # Å (Sn4+, 6-fold)
@@ -102,6 +132,9 @@ ELEMENTAL_PROPERTIES = {
         'mulliken_electronegativity': 2.12,
         'atomic_number': 50,
         'molar_mass': 118.710,
+        'valence_electron_count': 4,
+        'melting_point': 505.1,         # K
+        'enthalpy_of_fusion': 7.03,     # kJ/mol
     },
     'Ti': {
         'ionic_radius': 0.605,  # Å (Ti4+, 6-fold)
@@ -110,6 +143,9 @@ ELEMENTAL_PROPERTIES = {
         'mulliken_electronegativity': 1.75,
         'atomic_number': 22,
         'molar_mass': 47.867,
+        'valence_electron_count': 4,
+        'melting_point': 1941.0,        # K
+        'enthalpy_of_fusion': 14.15,    # kJ/mol
     },
     'V': {
         'ionic_radius': 0.58,   # Å (V4+, 6-fold)
@@ -118,6 +154,9 @@ ELEMENTAL_PROPERTIES = {
         'mulliken_electronegativity': 1.66,
         'atomic_number': 23,
         'molar_mass': 50.942,
+        'valence_electron_count': 5,
+        'melting_point': 2183.0,        # K
+        'enthalpy_of_fusion': 21.50,    # kJ/mol
     },
     'Zr': {
         'ionic_radius': 0.72,   # Å (Zr4+, 6-fold)
@@ -126,6 +165,9 @@ ELEMENTAL_PROPERTIES = {
         'mulliken_electronegativity': 1.42,
         'atomic_number': 40,
         'molar_mass': 91.224,
+        'valence_electron_count': 4,
+        'melting_point': 2128.0,        # K
+        'enthalpy_of_fusion': 21.00,    # kJ/mol
     },
 }
 
